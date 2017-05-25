@@ -54,4 +54,6 @@ y estará configurada la app para iniciar su funcionamiento.
 
   *Se recomienda añadir los primeros usuarios a la base de datos, directamente desde el gestor de bases de datos que se utilize.
   
+Actualizado 
+	*Añadido script de datos de prueba
 
