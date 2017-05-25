@@ -1,57 +1,56 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
 
- class Dashboard_Supervisor_Controller extends CI_Controller {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->database();
-		$this->load->helper('url');
-		$this->load->library('grocery_CRUD');
-	}
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-	public function index(){
+class Dashboard_Supervisor_Controller extends CI_Controller {
 
-		// añadir si la sesion no existe. redirigir a inicio
-		if ($this->session->userdata('loged') && $this->session->userdata('id_cargo')==2) {
-		try{
-			$this->empleados_estados();
-		}
-		catch(Exception $e){
-			show_error($e->getMessage().' --- '.$e->getTraceAsString());
-		}	}
-	
-		else{
-			redirect('login_Controller','refresh');
-		}
-	
+    public function __construct() {
+        parent::__construct();
+        $this->load->database();
+        $this->load->helper('url');
+        $this->load->library('grocery_CRUD');
+    }
 
-	}	
+    /**
+     * index()
+     * void
+     * Es el metodo que se carga por defecto al invocar este controlador
+     * si la sesion no existe, o no está autentificado, redirige al controlador
+     * login_Controller.
+     * * */
+    public function index() {
+        // añadir si la sesion no existe. redirigir a inicio
+        if ($this->session->userdata('loged') && $this->session->userdata('id_cargo') == 2) {
+            try {
+                $this->empleados_estados();
+            } catch (Exception $e) {
+                show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
+            }
+        } else {
+            redirect('login_Controller', 'refresh');
+        }
+    }
 
-	public function output($output = null)
-	{
-		$this->load->view('dashboard_Supervisor.php',(array)$output);
-	}
+    public function output($output = null) {
+        $this->load->view('dashboard_Supervisor.php', (array) $output);
+    }
+
+    public function empleados_estados() {
+        $crud = new grocery_CRUD();
+
+        $crud->set_table('estado');
+        $crud->unset_add();
+        $crud->set_subject('estado');
+
+        $crud->set_relation('id_tipo_estado', 'tipo_estado', 'nombre_tipo_estado');
+        $crud->set_relation('id_empleado', 'empleado', 'nombre_empleado');
+        $this->db->order_by('id_estado', 'desc');
 
 
+        $output = $crud->render();
 
-
-public function empleados_estados(){
-		$crud = new grocery_CRUD();
-
-		$crud->set_table('estado');
-		$crud->unset_add();
-		$crud->set_subject('estado');
-
-		$crud->set_relation('id_tipo_estado','tipo_estado','nombre_tipo_estado');
-		$crud->set_relation('id_empleado','empleado','nombre_empleado');
-		$this->db->order_by('id_estado', 'desc');
-		
-		
-		$output = $crud->render();
-
-		$this->output($output);
-}
-
+        $this->output($output);
+    }
 
 }
 
