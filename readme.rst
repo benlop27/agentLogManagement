@@ -23,4 +23,35 @@ La base de datos fue modelada nativamente en MariaDB, por lo tanto es adaptable 
 Instalación
 ************
 -La Instalacion del proyecto es sencilla.
+Consta unicamente de clonar este repositorio en la carpeta raiz de su servidor web, dirigirse a la carpeta application, dentro de ella a la carpeta config, editar el archivo database.php de esta manera:
+  en la seccion de configuraciones
+    db['default'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost', // Donde acá se especifica el url hacia el servidor de bases de datos
+	'username' => 'root', // el usuario que se se conectará a la base de datos
+	'password' => '', //la contraseña para autenticarse
+	'database' => 'loggerOneLink', // la base de datos, disponible en este mismo repositorio como agentLogManagement.sql
+	'dbdriver' => 'mysqli', // el driver de la base de datos
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+)
+
+En el archivo config.php de la misma carpeta
+$config['base_url'] = ''; especificar ahi el url estatico para acceder a recurso.
+
+y estará configurada la app para iniciar su funcionamiento.
+
+  *Se recomienda añadir los primeros usuarios a la base de datos, directamente desde el gestor de bases de datos que se utilize.
+  
 
